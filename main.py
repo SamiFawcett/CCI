@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import random
 import string
+import sys
 
 
 def howSum(targetSum, numbers):
@@ -304,13 +305,50 @@ def exploreIsland(i, j, islandGrid, visited):
     if(islandGrid[i, j] == 0):
         return
 
-    print('visited', (i, j))
     visited.add((i, j))
 
     exploreIsland(i-1, j, islandGrid, visited)
     exploreIsland(i+1, j, islandGrid, visited)
     exploreIsland(i, j-1, islandGrid, visited)
     exploreIsland(i, j+1, islandGrid, visited)
+
+
+def minimumIslandSize(islandGrid):
+    m = len(islandGrid)
+    n = len(islandGrid[0])
+
+    visited = set()
+
+    minimumIslandSize = sys.maxsize
+    for i in range(m):
+        for j in range(n):
+            if (i, j) not in visited and islandGrid[i, j] == 1:
+                foundIslandSize = islandSize(i, j, islandGrid, visited)
+                if(foundIslandSize < minimumIslandSize):
+                    minimumIslandSize = foundIslandSize
+
+    if minimumIslandSize == sys.maxsize:
+        return -1
+    else:
+        return minimumIslandSize
+
+
+def islandSize(i, j, island, visited):
+    if((i, j) in visited):
+        return 0
+
+    if(i < 0 or j >= len(island[0])):
+        return 0
+
+    if(j < 0 or i >= len(island)):
+        return 0
+
+    if(island[i, j] == 0):
+        return 0
+
+    visited.add((i, j))
+
+    return islandSize(i-1, j, island, visited) + islandSize(i+1, j, island, visited) + islandSize(i, j-1, island, visited) + islandSize(i, j+1, island, visited) + 1
 
 
 if __name__ == '__main__':
@@ -324,11 +362,11 @@ if __name__ == '__main__':
     print(largestComponent(g))
     print(shortestPath('a', 'd', g))
 
-    islandGrid = generateIslands(20, 20)
+    islandGrid = generateIslands(5, 5)
 
     print(islandGrid)
-
     print(howManyIslands(islandGrid))
+    print(minimumIslandSize(islandGrid))
 
 '''
     file = open('file.txt', 'r')
