@@ -351,8 +351,106 @@ def islandSize(i, j, island, visited):
     return islandSize(i-1, j, island, visited) + islandSize(i+1, j, island, visited) + islandSize(i, j-1, island, visited) + islandSize(i, j+1, island, visited) + 1
 
 
+def twoSum(arrs):
+    out_file = open('out.txt', 'w+')
+    for arr in arrs:
+        map = {}
+        for i in range(0, len(arr)):
+            val = arr[i]
+            for j in range(i+1, len(arr)):
+                if arr[j] + val == 0:
+                    map[0] = (i+1, j+1)
+        if 0 in map:
+            x, y = map[0]
+            st = str(x) + " " + str(y) + '\n'
+            out_file.write(st)
+        else:
+            neg1 = -1
+            st = str(neg1) + '\n'
+            out_file.write(st)
+
+
+def edgeListToGraph(edgelist, num_nodes, directed=False):
+    adjenencyMap = {}
+    for i in range(1, num_nodes+1):
+        adjenencyMap[i] = []
+
+    for edge in edgelist:
+        vertex1 = edge[0]
+        vertex2 = edge[1]
+        adjenencyMap[vertex1].append(vertex2)
+        if(not directed):
+            adjenencyMap[vertex2].append(vertex1)
+
+    return adjenencyMap
+
+
+def findAllPathLengthsFromVertex1(graph, num_nodes):
+    visited = set()
+    queue = [(1, 0)]
+    pathLengths = [0]*num_nodes
+
+    while len(queue) > 0:
+        queue_obj = queue.pop(0)
+        node = queue_obj[0]
+        dist = queue_obj[1]
+
+        if node not in visited:
+            pathLengths[node-1] = dist
+
+            visited.add(node)
+
+            for neighbor in graph[node]:
+                queue.append((neighbor, dist+1))
+
+    for i in range(1, num_nodes+1):
+        if i not in visited:
+            pathLengths[i-1] = -1
+
+    return pathLengths
+
+
+def rosalindConnectedComponents(edgelist, num_nodes):
+    def dfs(node, graph, visited):
+        if not node or node in visited:
+            return False
+
+        visited.add(node)
+
+        for neighbor in graph[node]:
+            dfs(neighbor, graph, visited)
+
+        return True
+
+    graph = edgeListToGraph(edgelist, num_nodes)
+
+    visited = set()
+    count = 0
+    for node in graph:
+        if dfs(node, graph, visited):
+            count += 1
+
+    return count
+
+
+
+class MaxHeap():
+    def __init__(self):
+        self.heap = []
+
+    def insert(self, val):
+        self.heap.append(val)
+        j = len(self.heap)
+        while(j-1 != 0 and self.heap[(j//2)-1] < self.heap[j-1]):
+            temp = self.heap[(j//2)-1]
+            self.heap[(j//2)-1] = self.heap[j-1]
+            self.heap[j-1] = temp
+            j = j//2
+
+
 if __name__ == '__main__':
 
+    # Graph Algorithms
     objects = ['a', 'b', 'c', 'd', 'e']
     g = createRandomAdjenencyList(objects, .5, False)
     print(g)
@@ -366,19 +464,35 @@ if __name__ == '__main__':
 
     print(islandGrid)
     print(howManyIslands(islandGrid))
-    print(minimumIslandSize(islandGrid))
 
-'''
+    # ROSALIND PROBLEMS
+    print('-------------ROSALIND--------------')
     file = open('file.txt', 'r')
-    lines = file.readlines()
-    arrs = []
-    for line in lines:
-        arr = [int(i) for i in line.split(' ')]
-        arrs.append(arr)
-    indicies = twoSum(arrs)
-    for indexRange in indicies:
-        if(indexRange != -1):
-            print(indexRange[0], indexRange[1])
+    strs = file.readlines()
+    #edgelist = []
+    heap_arr = []
+    params = None
+    i = 1
+    for s in strs:
+        if i == 0:
+            params = [int(x) for x in s.split(' ')]
         else:
-            print(indexRange)
-'''
+            heap_arr.append([int(x) for x in s.split(' ')])
+        i += 1
+    # twoSum(arr)
+    file.close()
+    #graph = edgeListToGraph(edgelist, params[0])
+    # print(graph)
+    #pathLengths = findAllPathLengthsFromVertex1(graph, params[0])
+    # print(pathLengths)
+
+    #n = rosalindConnectedComponents(edgelist, params[0])
+    heap_arr = heap_arr[0]
+    heap = MaxHeap()
+    for num in heap_arr:
+        heap.insert(num)
+
+    file = open('out.txt', 'w+')
+    s = ' '.join([str(x) for x in heap.heap])
+    file.write(s)
+    file.close()
