@@ -260,11 +260,6 @@ def dfs(graph, start, visited):
     return True
 
 
-def twoSum(arrs):
-
-    return
-
-
 def generateIslands(r, c):
 
     grid = []
@@ -433,7 +428,6 @@ def rosalindConnectedComponents(edgelist, num_nodes):
     return count
 
 
-
 class MaxHeap():
     def __init__(self):
         self.heap = []
@@ -446,6 +440,53 @@ class MaxHeap():
             self.heap[(j//2)-1] = self.heap[j-1]
             self.heap[j-1] = temp
             j = j//2
+
+
+# Sorting Algorithms
+
+def mergeSortDriver(arr):
+    return mergeSort(arr)
+
+
+def mergeSort(arr):
+
+    if(len(arr) > 1):
+        middle = len(arr) // 2
+
+        left = arr[:middle]
+        right = arr[middle:]
+
+        mergeSort(left)
+        mergeSort(right)
+
+        arr = merge(arr, left, right)
+        return arr
+
+
+def merge(arr, L, R):
+    # Copy data to temp arrays L[] and R[]
+    i = j = k = 0
+    while i < len(L) and j < len(R):
+        if L[i] < R[j]:
+            arr[k] = L[i]
+            i += 1
+        else:
+            arr[k] = R[j]
+            j += 1
+        k += 1
+
+    # Checking if any element was left
+    while i < len(L):
+        arr[k] = L[i]
+        i += 1
+        k += 1
+
+    while j < len(R):
+        arr[k] = R[j]
+        j += 1
+        k += 1
+
+    return arr
 
 
 if __name__ == '__main__':
@@ -465,34 +506,28 @@ if __name__ == '__main__':
     print(islandGrid)
     print(howManyIslands(islandGrid))
 
-    # ROSALIND PROBLEMS
-    print('-------------ROSALIND--------------')
-    file = open('file.txt', 'r')
-    strs = file.readlines()
-    #edgelist = []
-    heap_arr = []
-    params = None
-    i = 1
-    for s in strs:
-        if i == 0:
-            params = [int(x) for x in s.split(' ')]
-        else:
-            heap_arr.append([int(x) for x in s.split(' ')])
-        i += 1
-    # twoSum(arr)
-    file.close()
-    #graph = edgeListToGraph(edgelist, params[0])
-    # print(graph)
-    #pathLengths = findAllPathLengthsFromVertex1(graph, params[0])
-    # print(pathLengths)
+    # ROSALIND PROBLEM
+    #
+    #
 
-    #n = rosalindConnectedComponents(edgelist, params[0])
-    heap_arr = heap_arr[0]
-    heap = MaxHeap()
-    for num in heap_arr:
-        heap.insert(num)
+    ''' Merge Sort 
+    input = open('input.txt', 'r')
+    paramters = input.readline()
+    data = input.readlines()
+    arr = []
+    for line in data:
+        arr.append([int(x) for x in line.split(' ')])
+    input.close()
 
-    file = open('out.txt', 'w+')
-    s = ' '.join([str(x) for x in heap.heap])
-    file.write(s)
-    file.close()
+    data = arr[0]
+
+    sorted = ' '.join([str(x) for x in mergeSortDriver(data)])
+
+    output = open('output.txt', 'w+')
+    output.write(sorted)
+    output.close()
+    '''
+
+    ''' Two Way Partition '''
+
+    
