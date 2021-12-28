@@ -489,6 +489,33 @@ def merge(arr, L, R):
     return arr
 
 
+def twoWayPartition(arr):
+
+    lowerStack = []
+    upperStack = []
+
+    partition = arr[0]
+
+    for i in range(1, len(arr)):
+        num = arr[i]
+        if num <= partition:
+            lowerStack.append(num)
+        else:
+            upperStack.append(num)
+
+    assembled = []
+
+    for num in lowerStack:
+        assembled.append(num)
+
+    assembled.append(partition)
+
+    for num in upperStack:
+        assembled.append(num)
+
+    return assembled
+
+
 if __name__ == '__main__':
 
     # Graph Algorithms
@@ -529,5 +556,18 @@ if __name__ == '__main__':
     '''
 
     ''' Two Way Partition '''
+    input = open('input.txt', 'r')
+    paramters = input.readline()
+    data = input.readlines()
+    arr = []
+    for line in data:
+        arr.append([int(x) for x in line.split(' ')])
+    input.close()
 
-    
+    data = arr[0]
+
+    sorted = ' '.join([str(x) for x in twoWayPartition(data)])
+
+    output = open('output.txt', 'w+')
+    output.write(sorted)
+    output.close()
