@@ -638,6 +638,36 @@ def median(arr):
     return arr[middle]
 
 
+def isBipartite(graph):
+    stack = []
+    v1 = set()
+    v2 = set()
+    for node in graph:
+        stack.append((node, 0))
+        break
+
+    while len(stack) > 0:
+        node, vs = stack.pop(len(stack) - 1)
+
+        if vs == 0:
+            if node in v1:
+                continue
+            elif node in v2:
+                return -1
+            v1.add(node)
+        elif vs == 1:
+            if node in v2:
+                continue
+            elif node in v1:
+                return -1
+            v2.add(node)
+
+        for neighbor in graph[node]:
+            stack.append((neighbor, (vs + 1) % 2))
+
+    return 1
+
+
 if __name__ == "__main__":
 
     # Graph Algorithms
@@ -656,7 +686,25 @@ if __name__ == "__main__":
     print(howManyIslands(islandGrid))
 
     # ROSALIND PROBLEM
-
+    print("bipartite problem")
+    input = open("input.txt", "r")
+    output = open("output.txt", "w+")
+    num_graphs = int(input.readline())
+    for i in range(num_graphs):
+        input.readline()
+        params = [int(x) for x in input.readline().split(" ")]
+        num_nodes = params[0]
+        num_edges = params[1]
+        edgelist = []
+        for j in range(num_edges):
+            pair = [int(x) for x in input.readline().split(" ")]
+            edgelist.append(pair)
+        graph = edgeListToGraph(edgelist, num_nodes)
+        print(graph)
+        ret = str(isBipartite(graph))
+        output.write(ret + " ")
+    input.close()
+    output.close()
     # BYTE BY BYTE PROBLEM
-    median = findMedian([1, 3, 5], [2, 4, 6])
-    print(median)
+    # median = findMedian([1, 3, 5], [2, 4, 6])
+    # print(median)
