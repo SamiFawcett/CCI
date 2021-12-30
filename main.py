@@ -7,16 +7,16 @@ import sys
 
 def howSum(targetSum, numbers):
 
-    if(targetSum == 0):
+    if targetSum == 0:
         return []
-    if(targetSum < 0):
+    if targetSum < 0:
         return None
 
     for num in numbers:
         remainder = targetSum - num
         remainderResult = howSum(remainder, numbers)
 
-        if(remainderResult != None):
+        if remainderResult != None:
             remainderResult.append(num)
             return remainderResult
 
@@ -37,7 +37,7 @@ def majorityElement(k, n, arrs):
         maxCount = 0
         val = -1
         for key in freq_map:
-            if(freq_map[key] > n/2):
+            if freq_map[key] > n / 2:
                 maxCount = freq_map[key]
                 val = key
 
@@ -50,14 +50,14 @@ def mtsa(arr1, arr2):
     new_arr = []
     arr1_index = 0
     arr2_index = 0
-    while(len(new_arr) != len(arr1) + len(arr2)):
-        if(arr1_index == len(arr1)):
+    while len(new_arr) != len(arr1) + len(arr2):
+        if arr1_index == len(arr1):
             new_arr.append(arr2[arr2_index])
             arr2_index += 1
-        elif(arr2_index == len(arr2)):
+        elif arr2_index == len(arr2):
             new_arr.append(arr1[arr1_index])
             arr1_index += 1
-        elif(arr1[arr1_index] <= arr2[arr2_index]):
+        elif arr1[arr1_index] <= arr2[arr2_index]:
             new_arr.append(arr1[arr1_index])
             arr1_index += 1
         else:
@@ -68,11 +68,11 @@ def mtsa(arr1, arr2):
 
 
 def bestSum(targetSum, numbers, memo={}):
-    if(targetSum in memo):
+    if targetSum in memo:
         return memo[targetSum]
-    if(targetSum == 0):
+    if targetSum == 0:
         return []
-    if(targetSum < 0):
+    if targetSum < 0:
         return None
 
     smallestCombination = None
@@ -80,12 +80,12 @@ def bestSum(targetSum, numbers, memo={}):
     for num in numbers:
         remainder = targetSum - num
         remainderResult = bestSum(remainder, numbers, memo)
-        if(remainderResult != None):
+        if remainderResult != None:
             combination = remainderResult.copy()
             combination.append(num)
-            if(smallestCombination == None):
+            if smallestCombination == None:
                 smallestCombination = combination
-            elif(len(combination) < len(smallestCombination)):
+            elif len(combination) < len(smallestCombination):
                 smallestCombination = combination
 
     memo[targetSum] = smallestCombination
@@ -93,16 +93,16 @@ def bestSum(targetSum, numbers, memo={}):
 
 
 def canConstruct(targetWord, wordBank, memo={}):
-    if(targetWord in memo):
+    if targetWord in memo:
         return memo[targetWord]
-    if(targetWord == ''):
+    if targetWord == "":
         return True
 
     for word in wordBank:
-        if(targetWord.find(word) == 0):
-            suffix = targetWord[len(word):]
+        if targetWord.find(word) == 0:
+            suffix = targetWord[len(word) :]
             memo[targetWord] = canConstruct(suffix, wordBank)
-            if(memo[targetWord]):
+            if memo[targetWord]:
                 return True
 
     return False
@@ -112,13 +112,13 @@ def countConstruct(targetWord, wordBank, memo={}):
     if targetWord in memo:
         return memo[targetWord]
 
-    if targetWord == '':
+    if targetWord == "":
         return 1
 
     total = 0
     for word in wordBank:
-        if(targetWord.find(word) == 0):
-            suffix = targetWord[len(word):]
+        if targetWord.find(word) == 0:
+            suffix = targetWord[len(word) :]
             total += countConstruct(suffix, wordBank)
             memo[targetWord] = total
 
@@ -126,14 +126,14 @@ def countConstruct(targetWord, wordBank, memo={}):
 
 
 def allConstructs(targetWord, wordBank):
-    if targetWord == '':
+    if targetWord == "":
         return [[]]
 
     result = []
 
     for word in wordBank:
-        if(targetWord.find(word) == 0):
-            suffix = targetWord[len(word):]
+        if targetWord.find(word) == 0:
+            suffix = targetWord[len(word) :]
             suffix_ways = allConstructs(suffix, wordBank)
             targetWays = []
             for way in suffix_ways:
@@ -149,7 +149,7 @@ def allConstructs(targetWord, wordBank):
 def createRandomAdjenencyList(objects, density, directed):
     adjenencyList = {}
 
-    if(density > 1):
+    if density > 1:
         density = 1
 
     for obj in objects:
@@ -160,17 +160,16 @@ def createRandomAdjenencyList(objects, density, directed):
         numConnections = random.randint(0, maxConnections)
         connections = set()
         for i in range(numConnections):
-            rand = objects[random.randint(0, len(objects)-1)]
+            rand = objects[random.randint(0, len(objects) - 1)]
             if rand == node:
                 numConnections += 1
                 continue
             else:
                 connections.add(rand)
 
-        adjenencyList[node] = set(
-            list(adjenencyList[node]) + list(connections))
+        adjenencyList[node] = set(list(adjenencyList[node]) + list(connections))
 
-        if(directed == False):
+        if directed == False:
             for con in list(connections):
                 adjenencyList[con].add(node)
 
@@ -183,7 +182,7 @@ def createRandomAdjenencyList(objects, density, directed):
 def hasPath(src, dest, graph, visited):
     if src == dest:
         return True
-    if(src in visited):
+    if src in visited:
         return False
 
     visited.add(src)
@@ -200,7 +199,7 @@ def shortestPath(src, dest, graph):
     queue = [(src, 0)]
     visited = set()
 
-    while (len(queue) > 0):
+    while len(queue) > 0:
         node = queue.pop(0)
         if node[0] in visited:
             continue
@@ -209,7 +208,7 @@ def shortestPath(src, dest, graph):
 
         visited.add(node[0])
         for neighbor in graph[node[0]]:
-            queue.append((neighbor, node[1]+1))
+            queue.append((neighbor, node[1] + 1))
 
     return -1
 
@@ -243,14 +242,14 @@ def howManyConnectedComponents(graph):
     count = 0
     visited = set()
     for node in graph:
-        if(dfs(graph, node, visited)):
+        if dfs(graph, node, visited):
             count += 1
 
     return count
 
 
 def dfs(graph, start, visited):
-    if(start in visited):
+    if start in visited:
         return False
     visited.add(start)
 
@@ -281,7 +280,7 @@ def howManyIslands(islandGrid):
 
     for i in range(m):
         for j in range(n):
-            if((i, j) in visited or islandGrid[i, j] == 0):
+            if (i, j) in visited or islandGrid[i, j] == 0:
                 continue
             else:
                 exploreIsland(i, j, islandGrid, visited)
@@ -291,21 +290,21 @@ def howManyIslands(islandGrid):
 
 
 def exploreIsland(i, j, islandGrid, visited):
-    if ((i, j) in visited):
+    if (i, j) in visited:
         return
-    if(i < 0 or j >= len(islandGrid[0])):
+    if i < 0 or j >= len(islandGrid[0]):
         return
-    if(j < 0 or i >= len(islandGrid)):
+    if j < 0 or i >= len(islandGrid):
         return
-    if(islandGrid[i, j] == 0):
+    if islandGrid[i, j] == 0:
         return
 
     visited.add((i, j))
 
-    exploreIsland(i-1, j, islandGrid, visited)
-    exploreIsland(i+1, j, islandGrid, visited)
-    exploreIsland(i, j-1, islandGrid, visited)
-    exploreIsland(i, j+1, islandGrid, visited)
+    exploreIsland(i - 1, j, islandGrid, visited)
+    exploreIsland(i + 1, j, islandGrid, visited)
+    exploreIsland(i, j - 1, islandGrid, visited)
+    exploreIsland(i, j + 1, islandGrid, visited)
 
 
 def minimumIslandSize(islandGrid):
@@ -319,7 +318,7 @@ def minimumIslandSize(islandGrid):
         for j in range(n):
             if (i, j) not in visited and islandGrid[i, j] == 1:
                 foundIslandSize = islandSize(i, j, islandGrid, visited)
-                if(foundIslandSize < minimumIslandSize):
+                if foundIslandSize < minimumIslandSize:
                     minimumIslandSize = foundIslandSize
 
     if minimumIslandSize == sys.maxsize:
@@ -329,52 +328,58 @@ def minimumIslandSize(islandGrid):
 
 
 def islandSize(i, j, island, visited):
-    if((i, j) in visited):
+    if (i, j) in visited:
         return 0
 
-    if(i < 0 or j >= len(island[0])):
+    if i < 0 or j >= len(island[0]):
         return 0
 
-    if(j < 0 or i >= len(island)):
+    if j < 0 or i >= len(island):
         return 0
 
-    if(island[i, j] == 0):
+    if island[i, j] == 0:
         return 0
 
     visited.add((i, j))
 
-    return islandSize(i-1, j, island, visited) + islandSize(i+1, j, island, visited) + islandSize(i, j-1, island, visited) + islandSize(i, j+1, island, visited) + 1
+    return (
+        islandSize(i - 1, j, island, visited)
+        + islandSize(i + 1, j, island, visited)
+        + islandSize(i, j - 1, island, visited)
+        + islandSize(i, j + 1, island, visited)
+        + 1
+    )
 
 
 def twoSum(arrs):
-    out_file = open('out.txt', 'w+')
+    out_file = open("out.txt", "w+")
     for arr in arrs:
         map = {}
         for i in range(0, len(arr)):
             val = arr[i]
-            for j in range(i+1, len(arr)):
+            for j in range(i + 1, len(arr)):
                 if arr[j] + val == 0:
-                    map[0] = (i+1, j+1)
+                    map[0] = (i + 1, j + 1)
         if 0 in map:
             x, y = map[0]
-            st = str(x) + " " + str(y) + '\n'
+            st = str(x) + " " + str(y) + "\n"
             out_file.write(st)
         else:
             neg1 = -1
-            st = str(neg1) + '\n'
+            st = str(neg1) + "\n"
             out_file.write(st)
 
 
 def edgeListToGraph(edgelist, num_nodes, directed=False):
     adjenencyMap = {}
-    for i in range(1, num_nodes+1):
+    for i in range(1, num_nodes + 1):
         adjenencyMap[i] = []
 
     for edge in edgelist:
         vertex1 = edge[0]
         vertex2 = edge[1]
         adjenencyMap[vertex1].append(vertex2)
-        if(not directed):
+        if not directed:
             adjenencyMap[vertex2].append(vertex1)
 
     return adjenencyMap
@@ -383,7 +388,7 @@ def edgeListToGraph(edgelist, num_nodes, directed=False):
 def findAllPathLengthsFromVertex1(graph, num_nodes):
     visited = set()
     queue = [(1, 0)]
-    pathLengths = [0]*num_nodes
+    pathLengths = [0] * num_nodes
 
     while len(queue) > 0:
         queue_obj = queue.pop(0)
@@ -391,16 +396,16 @@ def findAllPathLengthsFromVertex1(graph, num_nodes):
         dist = queue_obj[1]
 
         if node not in visited:
-            pathLengths[node-1] = dist
+            pathLengths[node - 1] = dist
 
             visited.add(node)
 
             for neighbor in graph[node]:
-                queue.append((neighbor, dist+1))
+                queue.append((neighbor, dist + 1))
 
-    for i in range(1, num_nodes+1):
+    for i in range(1, num_nodes + 1):
         if i not in visited:
-            pathLengths[i-1] = -1
+            pathLengths[i - 1] = -1
 
     return pathLengths
 
@@ -428,21 +433,22 @@ def rosalindConnectedComponents(edgelist, num_nodes):
     return count
 
 
-class MaxHeap():
+class MaxHeap:
     def __init__(self):
         self.heap = []
 
     def insert(self, val):
         self.heap.append(val)
         j = len(self.heap)
-        while(j-1 != 0 and self.heap[(j//2)-1] < self.heap[j-1]):
-            temp = self.heap[(j//2)-1]
-            self.heap[(j//2)-1] = self.heap[j-1]
-            self.heap[j-1] = temp
-            j = j//2
+        while j - 1 != 0 and self.heap[(j // 2) - 1] < self.heap[j - 1]:
+            temp = self.heap[(j // 2) - 1]
+            self.heap[(j // 2) - 1] = self.heap[j - 1]
+            self.heap[j - 1] = temp
+            j = j // 2
 
 
 # Sorting Algorithms
+
 
 def mergeSortDriver(arr):
     return mergeSort(arr)
@@ -450,7 +456,7 @@ def mergeSortDriver(arr):
 
 def mergeSort(arr):
 
-    if(len(arr) > 1):
+    if len(arr) > 1:
         middle = len(arr) // 2
 
         left = arr[:middle]
@@ -516,17 +522,133 @@ def twoWayPartition(arr):
     return assembled
 
 
-if __name__ == '__main__':
+def threeSum(arrs):
+    # brute force solution
+    """
+    rets = []
+    for arr in arrs:
+        for i in range(len(arr)):
+            for j in range(i+1, len(arr)):
+                for k in range(j+1, len(arr)):
+                    if(arr[i] + arr[j] + arr[k] == 0):
+                        rets.append([i+1, j+1, k+1])
+    return rets
+    """
+
+    # optimal solution
+
+    rets = []
+    for arr in arrs:
+        # 1-indexed
+        initalPositions = {}
+        for i in range(len(arr)):
+            initalPositions[arr[i]] = i + 1
+        found = 0
+        # sort arr
+        sortedArr = sorted(arr)
+        for i in range(len(sortedArr) - 3):
+            start = i + 1
+            end = len(sortedArr) - 1
+            while start < end and found == 0:
+                if sortedArr[i] + sortedArr[start] + sortedArr[end] == 0:
+                    found = 1
+                    rets.append(
+                        sorted(
+                            [
+                                initalPositions[sortedArr[i]],
+                                initalPositions[sortedArr[start]],
+                                initalPositions[sortedArr[end]],
+                            ]
+                        )
+                    )
+                    break
+                elif sortedArr[i] + sortedArr[start] + sortedArr[end] < 0:
+                    currentStart = start
+                    while sortedArr[start] == sortedArr[currentStart] and start < end:
+                        start += 1
+                elif sortedArr[i] + sortedArr[start] + sortedArr[end] > 0:
+                    currentEnd = end
+                    while sortedArr[end] == sortedArr[currentEnd] and start < end:
+                        end -= 1
+        if found == 0:
+            rets.append([-1])
+    return rets
+
+
+# byte-by-byte coding problems
+# comment mistakes when going from paper to ide
+
+# 1. Median of Arrays
+def findMedianArrays(arr1, arr2):
+    i = j = 0
+    arr3 = []
+    while i < len(arr1) or j < len(arr2):  # used wrong variable name for i iterator
+        if i >= len(arr1):  # keep control structure parentheses consistent
+            arr3.append(arr2[j])
+            j += 1  # forgot to increment j
+        elif j >= len(arr2):  # keep control structure parenthese consistent
+            arr3.append(arr1[i])
+            i += 1  # forgot to increment i
+        elif arr1[i] <= arr2[j]:  # changed control structure from if to elif
+            arr3.append(arr1[i])
+            i += 1
+        elif arr2[j] < arr1[i]:
+            arr3.append(arr2[j])
+            j += 1
+
+    middle = len(arr3) // 2
+    if len(arr3) % 2 == 0:
+        return (arr3[middle] + arr3[middle - 1]) / 2
+    elif len(arr3) % 2 == 1:
+        return arr3[middle]
+
+
+# Optimized Median of Arrays Solution
+def findMedian(arr1, arr2):
+
+    m1 = median(arr1)
+    m2 = median(arr2)
+    print(arr1, arr2)
+    if len(arr1) == 2:
+
+        if m1 > m2:
+            return median([min(arr1), max(arr2)])
+        else:
+            return median([min(arr2), max(arr1)])
+
+    if m1 == m2:
+        return m1
+
+    middle = len(arr1) // 2
+
+    if m1 < m2:
+        new_a1 = arr1[middle:]
+        new_a2 = arr2[: middle + 1]
+        return findMedian(new_a1, new_a2)
+    elif m2 < m1:
+        new_a1 = arr1[: middle + 1]
+        new_a2 = arr2[middle1:]
+        return findMedian(new_a1, new_a2)
+
+
+def median(arr):
+    middle = len(arr) // 2
+    if len(arr) % 2 == 0:
+        return (arr[middle - 1] + arr[middle]) / 2
+    return arr[middle]
+
+
+if __name__ == "__main__":
 
     # Graph Algorithms
-    objects = ['a', 'b', 'c', 'd', 'e']
-    g = createRandomAdjenencyList(objects, .5, False)
+    objects = ["a", "b", "c", "d", "e"]
+    g = createRandomAdjenencyList(objects, 0.5, False)
     print(g)
 
-    print(hasPath('a', 'd', g, set()))
+    print(hasPath("a", "d", g, set()))
     print(howManyConnectedComponents(g))
     print(largestComponent(g))
-    print(shortestPath('a', 'd', g))
+    print(shortestPath("a", "d", g))
 
     islandGrid = generateIslands(5, 5)
 
@@ -534,40 +656,7 @@ if __name__ == '__main__':
     print(howManyIslands(islandGrid))
 
     # ROSALIND PROBLEM
-    #
-    #
 
-    ''' Merge Sort 
-    input = open('input.txt', 'r')
-    paramters = input.readline()
-    data = input.readlines()
-    arr = []
-    for line in data:
-        arr.append([int(x) for x in line.split(' ')])
-    input.close()
-
-    data = arr[0]
-
-    sorted = ' '.join([str(x) for x in mergeSortDriver(data)])
-
-    output = open('output.txt', 'w+')
-    output.write(sorted)
-    output.close()
-    '''
-
-    ''' Two Way Partition '''
-    input = open('input.txt', 'r')
-    paramters = input.readline()
-    data = input.readlines()
-    arr = []
-    for line in data:
-        arr.append([int(x) for x in line.split(' ')])
-    input.close()
-
-    data = arr[0]
-
-    sorted = ' '.join([str(x) for x in twoWayPartition(data)])
-
-    output = open('output.txt', 'w+')
-    output.write(sorted)
-    output.close()
+    # BYTE BY BYTE PROBLEM
+    median = findMedian([1, 3, 5], [2, 4, 6])
+    print(median)
