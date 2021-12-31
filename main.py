@@ -668,6 +668,41 @@ def isBipartite(graph):
     return 1
 
 
+def knapsack(arr, maxWeight):
+    # sort value/weight pair by decreasing values
+    arr.sort(reverse=True, key=lambda x: x[1])
+    totalWeight = 0
+    totalVal = 0
+    i = 0
+    while totalWeight < maxWeight and i < len(arr):
+
+        pair = arr[i]
+        p_weight = pair[0]
+        p_val = pair[1]
+        if p_weight + totalWeight <= maxWeight:
+            totalWeight += p_weight
+            totalVal += p_val
+        i += 1
+    return (totalWeight, totalVal)
+
+
+def knapsack(profits, weights, total_weight, n, memo={}):
+    if n in memo:
+        return memo[n]
+    if n == -1 or total_weight < 0:
+        return 0
+
+    if weights[n] > total_weight:
+        memo[n] = knapsack(profits, weights, total_weight, n - 1)
+        return memo[n]
+    elif weights[n] <= total_weight:
+        memo[n] = max(
+            profits[n] + knapsack(profits, weights, total_weight - weights[n], n - 1),
+            knapsack(profits, weights, total_weight, n - 1),
+        )
+        return memo[n]
+
+
 if __name__ == "__main__":
 
     # Graph Algorithms
@@ -686,25 +721,15 @@ if __name__ == "__main__":
     print(howManyIslands(islandGrid))
 
     # ROSALIND PROBLEM
-    print("bipartite problem")
-    input = open("input.txt", "r")
-    output = open("output.txt", "w+")
-    num_graphs = int(input.readline())
-    for i in range(num_graphs):
-        input.readline()
-        params = [int(x) for x in input.readline().split(" ")]
-        num_nodes = params[0]
-        num_edges = params[1]
-        edgelist = []
-        for j in range(num_edges):
-            pair = [int(x) for x in input.readline().split(" ")]
-            edgelist.append(pair)
-        graph = edgeListToGraph(edgelist, num_nodes)
-        print(graph)
-        ret = str(isBipartite(graph))
-        output.write(ret + " ")
-    input.close()
-    output.close()
+
     # BYTE BY BYTE PROBLEM
     # median = findMedian([1, 3, 5], [2, 4, 6])
     # print(median)
+
+    # Recursive Knapsack
+    profits = [6, 10, 12]
+    weights = [1, 2, 3]
+    max_weight = 5
+    n = 2
+    solution = knapsack(profits, weights, max_weight, n)
+    print(solution)
